@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"$if(lang)$ lang="$lang$" xml:lang="$lang$"$endif$>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="date" content="$date-meta$" />
+$endif$
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.4/tufte.min.css"/> -->
+
+<link rel="stylesheet" href="../static/envisioned-css/css/envisioned.css"/>
+<link rel="stylesheet" href="../static/envisioned-css/css/tablesaw-stackonly.css"/>
+<link rel="stylesheet" href="../static/envisioned-css/css/nudge.css"/> <!-- if you want navigation -->
+<script src="../static/envisioned-css/js/jquery.js"></script>
+<script src="../static/envisioned-css/js/tablesaw-stackonly.js"></script>
+<script src="../static/envisioned-css/js/nudge.min.js"></script> <!-- if you want navigation -->
+
+<script type="text/javascript" async
+    src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML'>
+</script>
+<link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono" rel="stylesheet">
+<title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
+<style>
+<!-- table { -->
+  <!-- border-top: 2px solid #111; -->
+  <!-- border-bottom: 2px solid #111; -->
+  <!-- font-size: 1.1rem; -->
+<!-- } -->
+
+<!-- th { -->
+  <!-- border-bottom: 1px solid #111; -->
+<!-- } -->
+
+<!-- pre { -->
+  <!-- overflow-x: auto; -->
+  <!-- background-color: #fafafa; -->
+  <!-- padding: 1rem; -->
+  <!-- text-align: left; -->
+<!-- } -->
+<!-- code { -->
+  <!-- font-family: 'Share Tech Mono', monospace; -->
+<!-- } -->
+
+p, footer, pre.code, div.table-wrapper {
+    width: 100%;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 66.7%;
+}
+
+ul {
+  list-style-type: circle;
+}
+
+.caption {
+  text-align: center;
+}
+
+<!-- blockquote { -->
+  <!-- border-left: 3px solid darkgray; -->
+  <!-- padding-left: 10px; -->
+<!-- } -->
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 40%;
+}
+
+.column img {
+  width: 100%;
+}
+
+</style>
+</head>
+<body>
+$if(title)$
+<div id="$idprefix$header">
+<h1 class="title">$title$</h1>
+    $if(subtitle)$
+    <h1 class="subtitle">$subtitle$</h1>
+    $endif$
+$endif$
+$for(author)$
+<h2 class="author">$author$</h2>
+$endfor$
+$if(date)$
+<h3 class="date">$date$</h3>
+$endif$
+$if(toc)$
+<div id="$idprefix$TOC">
+$toc$
+</div>
+$endif$
+<div id="wrapper">
+$body$
+</div>
+</body>
+</html>

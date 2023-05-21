@@ -1,0 +1,388 @@
+set auto-load safe-path /
+# add-auto-load-safe-path /home/jcshi/Softwares/gcc-4.9.3/lib64/libstdc++.so.6.0.20-gdb.py
+set print elements 0
+set pagination off
+set max-value-size unlimited
+set print repeats 0
+
+# set environment HISTSIZE 10000000
+# set history filename ~/.gdb_history
+# set history save on
+# set history size 10000000
+# set history expansion on
+# show history
+
+############################################################
+# C, C++
+############################################################
+define PrintCArrERange2D
+  set $PrintMatI = $arg1
+  while $PrintMatI < $arg2
+    set $PrintMatJ = 0
+    while $PrintMatJ < $arg3-1
+      printf "%23.15e,",*($arg0+$PrintMatI*$arg3+$PrintMatJ)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",*($arg0+$PrintMatI*$arg3+$PrintMatJ)
+    printf "\n"
+    set $PrintMatI = $PrintMatI + 1
+  end
+end
+
+define PrintCMatERange2D
+  #
+  set $PrintMatI = $arg1
+  while $PrintMatI <= $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ < $arg4
+      printf "%23.15e,",$arg0[$PrintMatI][$PrintMatJ]
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0[$PrintMatI][$PrintMatJ]
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintCMatERangeIn3D
+  #
+  set $PrintMatI = $arg1
+  set $PrintMatK = $arg5
+  while $PrintMatI <= $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ < $arg4
+      printf "%23.15e,",$arg0[$PrintMatI][$PrintMatJ][$PrintMatK]
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0[$PrintMatI][$PrintMatJ][$PrintMatK]
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+# define PrintCPtr2DERange
+#   set $PrintMatI = 0
+#   while $PrintMatI < $arg1
+#     set $PrintMatJ = 0
+#     while $PrintMatJ < $arg2
+#       printf "%23.15e,",*(*($arg0+$PrintMatI*$arg2)+$PrintMatJ)
+#       set $PrintMatJ = $PrintMatJ + 1
+#     end
+#     printf "\n"
+#     set $PrintMatI = $PrintMatI + 1
+#   end
+# end
+
+############################################################
+# Fortran
+############################################################
+# Print 2D matrix in fortran.
+# Note: for comparison, >, < symbols will raise error. You must use fortran
+# syntax, like .le. for <=.
+
+define PrintFortranArrERange2D
+  #
+  set $Dim1 = $arg5
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%23.15e,",$arg0(($PrintMatJ-1)*$Dim1+$PrintMatI)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0(($PrintMatJ-1)*$Dim1+$PrintMatI)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranArrERange2DIn2D
+  #
+  set $Dim1 = $arg5
+  set $FixedDim = $arg6
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%23.15e,",$arg0(($PrintMatJ-1)*$Dim1+$PrintMatI, $FixedDim)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0(($PrintMatJ-1)*$Dim1+$PrintMatI, $FixedDim)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatERange
+  #
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatFRange
+  #
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%.2f,",$arg0($PrintMatI,$PrintMatJ)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%.2f",$arg0($PrintMatI,$PrintMatJ)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatIRange
+  #
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%d,",$arg0($PrintMatI,$PrintMatJ)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%d",$arg0($PrintMatI,$PrintMatJ)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatERangeIn3D3
+  #
+  set $PrintMatI = $arg1
+  set $PrintMatK = $arg5
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatERangeIn3D2
+  #
+  set $PrintMatJ = $arg5
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatK = $arg3
+    while $PrintMatK .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+      set $PrintMatK = $PrintMatK + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatERangeIn3D1
+  #
+  set $PrintMatI = $arg5
+  set $PrintMatJ = $arg1
+  while $PrintMatJ .le. $arg2
+    #
+    set $PrintMatK = $arg3
+    while $PrintMatK .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+      set $PrintMatK = $PrintMatK + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+    printf "\n"
+    #
+    set $PrintMatJ = $PrintMatJ + 1
+  end
+  #
+end
+
+define PrintFortranMatIRangeIn3D3
+  #
+  set $PrintMatI = $arg1
+  set $PrintMatK = $arg5
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%d,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%d",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranMatERangeIn4D14
+  #
+  set $PrintMatI = $arg5
+  set $PrintMatL = $arg6
+  set $PrintMatJ = $arg1
+  while $PrintMatJ .le. $arg2
+    #
+    set $PrintMatK = $arg3
+    while $PrintMatK .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK,$PrintMatL)
+      set $PrintMatK = $PrintMatK + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ,$PrintMatK,$PrintMatL)
+    printf "\n"
+    #
+    set $PrintMatJ = $PrintMatJ + 1
+  end
+  #
+end
+
+define PrintFortranMatERangeIn4D34
+  #
+  set $PrintMatK = $arg5
+  set $PrintMatL = $arg6
+  set $PrintMatI = $arg1
+  while $PrintMatI .le. $arg2
+    #
+    set $PrintMatJ = $arg3
+    while $PrintMatJ .lt. $arg4
+      printf "%23.15e,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK,$PrintMatL)
+      set $PrintMatJ = $PrintMatJ + 1
+    end
+    printf "%23.15e",$arg0($PrintMatI,$PrintMatJ,$PrintMatK,$PrintMatL)
+    printf "\n"
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+end
+
+define PrintFortranArrERange
+  #
+  set $PrintMatI = $arg1
+  while $PrintMatI .lt. $arg2
+    #
+    printf "%23.15e,",$arg0($PrintMatI)
+    #
+    set $PrintMatI = $PrintMatI + 1
+  end
+  #
+  printf "%23.15e",$arg0($PrintMatI)
+  printf "\n"
+  #
+end
+
+define PrintFortranMat3F
+  #
+  set $PrintMatK = 1
+  while $PrintMatK .le. $arg3
+    #
+    printf "$arg0(:,:,%d) ==>\n",$PrintMatK
+    #
+    set $PrintMatI = 1
+    while $PrintMatI .le. $arg1
+      #
+      set $PrintMatJ = 1
+      while $PrintMatJ .le. $arg2
+        #
+        printf "%.9f,",$arg0($PrintMatI,$PrintMatJ,$PrintMatK)
+        set $PrintMatJ = $PrintMatJ+ 1
+        #
+      end
+      printf "\n"
+      #
+      set $PrintMatI = $PrintMatI + 1
+      #
+    end
+    printf "<== $arg0(:,:,%d)\n",$PrintMatK
+    #
+    set $PrintMatK = $PrintMatK + 1
+    #
+  end
+end
+
+############################################################
+# NFS Helper
+############################################################
+
+define FindFaceByCoordinates
+  set $target_x = $arg0
+  set $target_y = $arg1
+  set $n_face = grid_base_mod::nfbnd
+  set $zero_tol = 1e-8
+  set $fi = 1
+  while $fi .le. $n_face
+    set $fi_n1 = grid_base_mod::face($fi)%nodes(1)
+    set $fi_n2 = grid_base_mod::face($fi)%nodes(2)
+    set $fi_n1_x = grid_base_mod::xyz_nodes(1,$fi_n1)
+    set $fi_n2_x = grid_base_mod::xyz_nodes(1,$fi_n2)
+    if ($fi_n1_x-$target_x)*($fi_n2_x-$target_x) .le. $zero_tol
+      set $fi_n1_y = grid_base_mod::xyz_nodes(2,$fi_n1)
+      set $fi_n2_y = grid_base_mod::xyz_nodes(2,$fi_n2)
+      if ($fi_n1_y-$target_y)*($fi_n2_y-$target_y) .le. $zero_tol
+        printf "X: %12.4e in [%12.4e, %12.4e]\n", $target_x,$fi_n1_x,$fi_n2_x
+        printf "Y: %12.4e in [%12.4e, %12.4e]\n", $target_y,$fi_n1_y,$fi_n2_y
+        printf "Target is in the face no. %d, with the following info,\n", $fi
+        p grid_base_mod::face($fi)
+      end
+    end
+    set $fi = $fi + 1
+  end
+end
+
+define ShowConnectedProcID
+  set $n_face = grid_base_mod::nfbnd
+  set $fi = 1
+  set $cnt = 0
+  printf "Connected proc ID are\n"
+  while $fi .le. $n_face
+    set $bc = grid_base_mod::bface(1,$fi)
+    if $bc .eq. 99
+      set $cnt = $cnt + 1
+      set $nei_proc_id = grid_base_mod::bface(7,$fi) + 1
+      set $fi_nei = grid_base_mod::bface(5,$fi)
+      set $fi_rot = grid_base_mod::face($fi)%left%rotation
+      printf "No. %4d, Face %4d(left_rotation %1d) <-> Face %4d in Proc %4d\n",$cnt,$fi,$fi_rot,$fi_nei,$nei_proc_id
+    end
+    set $fi = $fi + 1
+  end
+end
+

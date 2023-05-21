@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"$if(lang)$ lang="$lang$" xml:lang="$lang$"$endif$>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="date" content="$date-meta$" />
+$endif$
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tufte-css/1.7.2/tufte.min.css">
+
+<title>$if(title-prefix)$$title-prefix$ - $endif$$pagetitle$</title>
+
+<style>
+
+body {
+  font-family: 'FZFW ZhuZi GuDianS LMC', sans-serif;
+  width: 90%;
+  padding-left: 5%;
+}
+
+p {
+  padding-right: 5%;
+}
+
+video {
+  display: block;
+  margin: 0 auto;
+}
+
+.column video {
+  width: -webkit-fill-available;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+figure {
+  max-width: 90%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+figcaption {
+  max-width: 100%;
+  float: left;
+  font-size: 1.2rem;
+}
+
+table {
+  width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+  text-align: center;
+  border-top: 3px double black;
+  border-bottom: 3px double black;
+}
+table caption {
+  font-size: 1.2rem;
+}
+th {
+  font-size: 1.6rem;
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+td {
+  font-size: 1.4rem;
+}
+/* Alternating background colors */
+tr:nth-child(even) {
+  background: #A6A6A6
+  }
+tr:nth-child(odd) {
+  background: #FFF
+}
+
+code {
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  color: #666;
+
+}
+
+pre>code {
+  border-left: 3px solid #ffd772;
+  page-break-inside: avoid;
+  max-width: 100%;
+  overflow: auto;
+  padding: 0.5em 1em;
+  display: block;
+  word-wrap: break-word;
+  width: 90%;
+}
+
+blockquote p {
+  width: 80%;
+}
+
+dl {
+  font-size: 1.4rem;
+  line-height: 2rem;
+}
+dt {
+  float: left;
+  width: 30%;
+  text-align: right;
+  font-weight: bold;
+  padding: .25em;
+  clear: left;
+}
+dd {
+  float: left;
+  width: 60%;
+  padding: .25em 0;
+}
+dt:after {
+  content: ":";
+}
+
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+</style>
+
+$if(highlighting-css)$
+<style type="text/css">
+$highlighting-css$
+</style>
+$endif$
+
+</head>
+
+<body>
+$if(title)$
+<div id="$idprefix$header">
+<h1 class="title">$title$</h1>
+$if(subtitle)$
+<h1 class="subtitle">$subtitle$</h1>
+$endif$
+$endif$
+$for(author)$
+<h2 class="author">$author$</h2>
+$endfor$
+$if(date)$
+<h3 class="date">$date$</h3>
+$endif$
+$if(toc)$
+<div id="$idprefix$TOC">
+$toc$
+</div>
+$endif$
+<div id="wrapper">
+$body$
+</div>
+</body>
+</html>

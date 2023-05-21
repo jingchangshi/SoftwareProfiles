@@ -1,0 +1,25 @@
+# line styles for ColorBrewer RdYlBu
+# for use with divering data
+# provides 8 colors with red low, pale yellow middle, and blue high
+# compatible with gnuplot >=4.2
+# author: Anna Schneider
+
+# line styles
+set linetype 1 lc rgb '#D73027' # red
+set linetype 2 lc rgb '#F46D43' # orange
+set linetype 3 lc rgb '#FDAE61' # 
+set linetype 4 lc rgb '#FEE090' # pale orange
+set linetype 5 lc rgb '#E0F3F8' # pale blue
+set linetype 6 lc rgb '#ABD9E9' # 
+set linetype 7 lc rgb '#74ADD1' # medium blue
+set linetype 8 lc rgb '#4575B4' # blue
+
+# palette
+set palette defined ( 0 '#D73027',\
+    	    	      1 '#F46D43',\
+		      2 '#FDAE61',\
+		      3 '#FEE090',\
+		      4 '#E0F3F8',\
+		      5 '#ABD9E9',\
+		      6 '#74ADD1',\
+		      7 '#4575B4' )

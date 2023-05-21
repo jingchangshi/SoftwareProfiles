@@ -1,0 +1,5 @@
+filename="${1%.*}" # get the base name of the input file
+mv ${1} ${filename}_backup.pdf
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default \
+    -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages \
+    -dCompressFonts=true -r150 -sOutputFile=${1} ${filename}_backup.pdf

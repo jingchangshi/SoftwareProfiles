@@ -1,0 +1,17 @@
+#  This file is copied from shadowsocks-libev.
+#
+#  This is a template unit file. Users may copy and rename the file into
+#  config directories to make new service instances. See systemd.unit(5)
+#  for details.
+
+[Unit]
+Description=kcptun
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/home/jcshi/Softwares/kcptun/client_linux_amd64 -c /home/jcshi/software_profile/shadowsocks/kcptun_conf.json --log /home/jcshi/.cache/kcptun.log
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,8 @@
+{
+    "rules": {
+        "spelling": {
+            "language": "en-us",
+            "skipPatterns": ["Galerkin, FR, DG, CPR, LES"]
+        }
+    }
+}

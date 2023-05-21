@@ -1,0 +1,24 @@
+1. ShadowsocksR
+2. WeChat
+3. Peazip
+4. gvim + set up
+5. Nutstore
+6. VirtualBox
+7. Office
+8. PDF X-Change Editor
+9. Chrome
+10. Gmsh
+11. Windows Terminal
+14. scoop
+    scoop install git pandoc openssh curl ctags nodejs-lts
+    scoop bucket add version
+    scoop install python37
+    pip install jinja2 numpy scipy matplotlib bibtex2html.py
+    scoop bucket add extras
+    scoop install geekuninstaller freecommander keepassxc potplayer proxifier-portable fiddler irfanview vcxsrv eagleget-portable sumatrapdf
+16. Fonts: Cascadia + FZ + Inziu Iosevka SC
+19. Tecplot
+20. Uninstall the old version of OpenSSH shipped with the system
+    Remove-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+21. toggl
+

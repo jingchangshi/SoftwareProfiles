@@ -1,0 +1,250 @@
+# Markdown
+
+# Modification by Jingchang Shi
+# 2017-03-10, 21:34:42
+snippet frac \frac{}{}
+	\\frac{${1:num}}{${2:denom}} ${0}
+snippet \p
+	\\partial ${1:var}${0}
+# 2018-10-10, 07:58:05
+snippet log
+	% Work Journal
+	% Jingchang Shi
+	% `strftime("%Y-%m-%d")`
+	
+	---
+	
+	# ${1}
+# 2018-12-01, 17:24:15
+snippet jou
+	% Life Journal
+	% Jingchang Shi
+	% `strftime("%Y-%m-%d")`
+	
+	---
+	
+	# ${0}
+# 2020-04-15, 07:15:16
+snippet yaml
+	---
+	title: ${1}
+	author: Jingchang Shi
+	date: `strftime("%Y-%m-%d")`
+	---
+	
+	# ${2}
+# 2020-04-15, 07:18:29
+snippet paper
+	---
+	title: Notes on ""
+	author: Jingchang Shi
+	date: `strftime("%Y-%m-%d")`
+	---
+	
+	# Overview
+	
+	Reference: 
+	
+	# Introduction
+	
+	
+	
+	# Methods Learned
+	
+	
+	
+	# Work
+	
+	
+	
+# 2019-06-14, 11:16:09
+snippet redtext
+	<span style="color:red">${1:WARNNING}</span>
+# 2019-06-14, 11:16:15
+snippet bluetext
+	<span style="color:blue">${1:NOTE}</span>
+# 2019-06-14, 11:16:17
+snippet greentext
+	<span style="color:green">${1:NOTE}</span>
+# 2019-06-14, 11:16:25
+snippet 2col
+	:::::: {.columns}
+	::: {.column width="50%"}
+	${1}
+	:::
+	::: {.column width="50%"}
+	${2}
+	:::
+	::::::
+# <div class="row">
+#   <div class="column">
+#   </div>
+#   <div class="column">
+#   </div>
+# </div>
+# 2020-09-23, 08:50:03
+snippet 3col
+	<div class="row">
+	  <div class="column13">
+	  </div>
+	  <div class="column13">
+	  </div>
+	  <div class="column13">
+	  </div>
+	</div>
+# 2021-01-01, 16:51:25
+snippet 4col
+	<div class="row">
+	  <div class="column14">
+	  </div>
+	  <div class="column14">
+	  </div>
+	  <div class="column14">
+	  </div>
+	  <div class="column14">
+	  </div>
+	</div>
+# Includes octopress (http://octopress.org/) snippets
+
+# The suffix `c` stands for "Clipboard".
+
+snippet [
+	[${1:text}](http://${2:address})
+snippet [*
+	[${1:link}](${2:`@*`})
+snippet [c
+	[${1:link}](${2:`@+`})
+snippet ["
+	[${1:text}](http://${2:address} "${3:title}")
+snippet ["*
+	[${1:link}](${2:`@*`} "${3:title}")
+snippet ["c
+	[${1:link}](${2:`@+`} "${3:title}")
+snippet [:
+	[${1:id}]: http://${2:url}
+
+snippet [:*
+	[${1:id}]: ${2:`@*`}
+
+snippet [:c
+	[${1:id}]: ${2:`@+`}
+
+snippet [:"
+	[${1:id}]: http://${2:url} "${3:title}"
+
+snippet [:"*
+	[${1:id}]: ${2:`@*`} "${3:title}"
+
+snippet [:"c
+	[${1:id}]: ${2:`@+`} "${3:title}"
+
+snippet ![
+	![${1:alttext}](${2:/images/image.jpg})
+snippet ![*
+	![${1:alt}](${2:`@*`})
+snippet ![c
+	![${1:alt}](${2:`@+`})
+snippet !["
+	![${1:alttext}](${2:/images/image.jpg} "${3:title}")
+snippet !["*
+	![${1:alt}](${2:`@*`} "${3:title}")
+snippet !["c
+	![${1:alt}](${2:`@+`} "${3:title}")
+snippet ![:
+	![${1:id}]: ${2:url}
+
+snippet ![:*
+	![${1:id}]: ${2:`@*`}
+
+snippet ![:"
+	![${1:id}]: ${2:url} "${3:title}"
+
+snippet ![:"*
+	![${1:id}]: ${2:`@*`} "${3:title}"
+
+snippet ![:"c
+	![${1:id}]: ${2:`@+`} "${3:title}"
+
+snippet <
+	<http://${1:url}>
+snippet <*
+	<`@*`>
+snippet <c
+	<`@+`>
+snippet **
+	**${1:bold}**
+snippet __
+	__${1:bold}__
+snippet ===
+	`repeat('=', strlen(getline(line(".") - 1)) - strlen(getline('.')))`
+
+	${0}
+snippet -
+	-   ${0}
+snippet ---
+	`repeat('-', strlen(getline(line(".") - 1)) - strlen(getline('.')))`
+
+	${0}
+
+snippet blockquote
+	{% blockquote %}
+	${0:quote}
+	{% endblockquote %}
+
+snippet blockquote-author
+	{% blockquote ${1:author}, ${2:title} %}
+	${0:quote}
+	{% endblockquote %}
+
+snippet blockquote-link
+	{% blockquote ${1:author} ${2:URL} ${3:link_text} %}
+	${0:quote}
+	{% endblockquote %}
+
+snippet ```
+	\`\`\`
+	${1:code}
+	\`\`\`
+
+# Language.
+snippet ```l
+	\`\`\`${1:language}
+	${2:code}
+	\`\`\`
+
+snippet codeblock-short
+	{% codeblock %}
+	${0:code_snippet}
+	{% endcodeblock %}
+
+snippet codeblock-full
+	{% codeblock ${1:title} lang:${2:language} ${3:URL} ${4:link_text} %}
+	${0:code_snippet}
+	{% endcodeblock %}
+
+snippet gist-full
+	{% gist ${1:gist_id} ${0:filename} %}
+
+snippet gist-short
+	{% gist ${0:gist_id} %}
+
+snippet img
+	{% img ${1:class} ${2:URL} ${3:width} ${4:height} ${5:title_text} ${0:alt_text} %}
+
+snippet fig
+	<figure>
+	<img src="${1}">
+	<figcaption>${2}</figcaption>
+	</figure>
+
+snippet youtube
+	{% youtube ${0:video_id} %}
+
+# The quote should appear only once in the text. It is inherently part of it.
+# See http://octopress.org/docs/plugins/pullquote/ for more info.
+
+snippet pullquote
+	{% pullquote %}
+	${1:text} {" ${2:quote} "} ${0:text}
+	{% endpullquote %}
+

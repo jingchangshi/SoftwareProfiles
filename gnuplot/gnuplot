@@ -1,0 +1,35 @@
+# set path of Gnuplot's color palettes
+# set term qt size 2048,1280 font "Lato" linewidth 3
+# set term qt size 1024,640 font "Lato" linewidth 3
+# set term qt size 1536,768
+set term x11
+set termoption font "Cascadia Mono"
+set termoption linewidth 3
+set title font ",30"
+set title offset 0,-1
+set key font ",14"
+set tics font ",26"
+set xtics offset screen 0,-0.02
+set ytics offset screen 0,0
+set xlabel font ",30"
+set ylabel font ",30"
+set xlabel offset screen 0,-0.03
+set ylabel offset screen -0.01,0
+# set xtics axis nomirror
+# set ytics axis nomirror
+# set format x "%2.1t * 10^{%T}"
+# set format y "%2.1t * 10^{%T}"
+
+set lmargin at screen 0.12
+set rmargin at screen 0.95
+set bmargin at screen 0.1
+set tmargin at screen 0.9
+
+# Gnuplot reports: error: Pipes and shell commands not permitted during initialization
+# Not sure how to resolve this issue.
+# palettefile(n) = sprintf("<sed -e 's/set style line/set linetype/' -e 's/lt 1 //' /home/jcshi/software_profile/gnuplot/gnuplot-palettes/%s.pal", n)
+# load palettefile("rdylbu")
+# load palettefile("set1")
+load "/home/jcshi/software_profile/gnuplot/gnuplot-palettes/set1.pal"
+
+set grid

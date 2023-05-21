@@ -1,0 +1,5 @@
+filename="${1%.*}" # get the base name of the input file
+wkhtmltopdf --javascript-delay 2000 ${filename}.html ${filename}.pdf
+echo "If the PDF generated is not perfect, try modify the value in javescript delay option."
+echo "Command: wkhtmltopdf --javascript-delay 2000 "${filename}.html ${filename}.pdf
+

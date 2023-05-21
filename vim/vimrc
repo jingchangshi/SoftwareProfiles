@@ -1,0 +1,411 @@
+""""""""""""""""""""""""""""""
+" Basics
+""""""""""""""""""""""""""""""
+set encoding=utf8
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+set noswapfile
+set nocompatible              " be iMproved, required
+set backupcopy=yes " necessary for editing files in Dropbox
+filetype off                  " required
+
+""""""""""""""""""""""""""""""
+" Plugin
+""""""""""""""""""""""""""""""
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+" Make sure you use single quotes
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'tomtom/tlib_vim' " for vim-snipmate
+Plug 'MarcWeber/vim-addon-mw-utils' " for vim-snipmate
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'vim-scripts/taglist.vim'
+Plug 'MattesGroeger/vim-bookmarks'
+Plug 'andymass/vim-matchup'
+Plug 'junegunn/vim-easy-align', { 'for': 'markdown' }
+Plug 'xolox/vim-session' | Plug 'xolox/vim-misc' " for vim-session
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'dhruvasagar/vim-table-mode'
+Plug 'JuliaEditorSupport/julia-vim'
+Plug 'hotoo/pangu.vim'
+" Vim Theme
+Plug 'morhetz/gruvbox'
+"
+Plug 'vim-scripts/AnsiEsc.vim'
+" mainly for markdown which will be postprocess by pandoc to generate html
+" Plug 'vim-pandoc/vim-pandoc-syntax'
+" Initialize plugin system
+call plug#end()
+
+""""""""""""""""""""""""""""""
+" Basic Style
+""""""""""""""""""""""""""""""
+set number
+set cursorline
+set colorcolumn=80
+set autoread
+" Fonts
+if has('win32')
+  set guifont=Cascadia_Code_PL:h16
+elseif has('unix')
+  set guifont=Cascadia\ Code\ PL\ 16
+endif
+"""""""""""
+" Whitespace related
+"""""""""""
+set tabstop=2
+set shiftwidth=2
+set expandtab
+autocmd FileType make setlocal noexpandtab
+set backspace=indent,eol,start
+"""""""""""
+" Special char
+"""""""""""
+set list
+set listchars=eol:¶
+"""""""""""
+" status line
+"""""""""""
+set laststatus=2
+set statusline=Row:%l/%L,Col:%c,%F
+"""""""""""
+" Spelling
+"""""""""""
+set spelllang=en_us,cjk
+autocmd FileType markdown setlocal spell
+autocmd FileType tex setlocal spell
+" autocmd BufWritePre *.markdown,*.md,*.tex,*.text,*.txt,*.wiki,*.cnx call PanGuSpacing()
+"""""""""""
+" highlight
+"""""""""""
+set showmatch
+set hlsearch
+set matchpairs+=<:>
+" Highlight all instances of word under cursor, when idle.
+" Useful when studying strange source code.
+" Type z/ to toggle highlighting on/off.
+nnoremap z/ :if AutoHighlightToggle()<Bar>set hls<Bar>endif<CR>
+function! AutoHighlightToggle()
+  let @/ = ''
+  if exists('#auto_highlight')
+    au! auto_highlight
+    augroup! auto_highlight
+    setl updatetime=4000
+    echo 'Highlight current word: off'
+    return 0
+  else
+    augroup auto_highlight
+      au!
+      au CursorHold * let @/ = '\V\<'.escape(expand('<cword>'), '\').'\>'
+    augroup end
+    setl updatetime=500
+    echo 'Highlight current word: ON'
+    return 1
+  endif
+endfunction
+"""""""""""
+" syntax
+"""""""""""
+syntax enable
+" For large file
+set redrawtime=10000
+" For json-fortran API. Set a customized comment
+au! BufEnter *.json syn match specialComment #!.*# | hi specialComment ctermfg=gray guifg=gray
+" 
+let g:vim_markdown_math = 1
+let g:markdown_folding = 1
+au FileType markdown setlocal foldlevel=1
+autocmd BufNewFile,BufRead,BufEnter *.md :syn match markdownIgnore "\$.*_.*\$"
+" 
+let g:tex_flavor = "latex"
+" Fortran
+let fortran_free_source=1
+let fortran_have_tabs=1
+let fortran_more_precise=1
+let fortran_do_enddo=1
+"""""""""""
+" filetype
+"""""""""""
+augroup filetypedetect 
+au BufNewFile,BufRead *.geo setf gmsh
+au BufNewFile,BufRead *.mmark setf markdown
+au BufNewFile,BufRead *.in setf fortran
+au BufNewFile,BufRead *.pf setf fortran
+au BufNewFile,BufRead *.C setf cpp
+augroup END
+
+""""""""""""""""""""""""""""""
+" key mapping
+""""""""""""""""""""""""""""""
+nmap <F2> @: " Repeat the last operation
+nmap <F3> a<C-R>=strftime("%Y-%m-%d, %H:%M:%S, By Jingchang Shi")<CR><Esc>
+imap <F3> <C-R>=strftime("%Y-%m-%d, %H:%M:%S, By Jingchang Shi")<CR>
+" nmap <F4> :nohlsearch<CR>
+nnoremap <F5> :tabprevious<CR>
+nnoremap <F6> :tabnext<CR>
+nnoremap <silent> <F7> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <F8> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+nmap <silent> <A-Up> :wincmd k<CR>
+nmap <silent> <A-Down> :wincmd j<CR>
+nmap <silent> <A-Left> :wincmd h<CR>
+nmap <silent> <A-Right> :wincmd l<CR>
+nnoremap <Tab> >>_
+nnoremap <S-Tab> <<_
+inoremap <S-Tab> <C-D>
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
+nmap <C-S-C> :set guifont=Inziu_Iosevka_SC:h16:cANSI:qDRAFT<CR>
+nmap <C-S-E> :set guifont=Cascadia_Code_PL:h16:cANSI:qDRAFT<CR>
+"""""""""""
+" copy paste
+"""""""""""
+if has('win32')
+  nnoremap <C-v> "+gp
+  inoremap <C-v> <ESC>"+gp
+  vnoremap <C-c> "+y<CR>
+  vnoremap <C-x> "+x<CR>
+endif
+"""""""""""
+" colorscheme
+"""""""""""
+colorscheme gruvbox
+set background=dark
+set t_Co=256
+" disable bell
+set belloff=all
+
+"""""""""""
+" NERDTree
+"""""""""""
+let g:NERDSpaceDelims = 1
+let g:NERDTrimTrailingWhitespace = 1
+" Align line-wise comment delimiters flush left instead of following code indentation
+" options: left, start, both, none
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 0
+" Disable adding whitespaces before the comment symbols in the block style
+let g:NERDDisableTabsInBlockComm = 1
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = {
+    \ 'fortran': { 'left': '!', 'leftAlt': '!===BEGIN===!', 'rightAlt': '!===END===!'}
+\ }
+nmap <F10> :NERDTreeToggle<CR>
+let g:NERDTreeWinSize = 30
+" Start NERDTree in minimal UI mode (No help lines)
+let NERDTreeMinimalUI = 1
+" Close NERDTree when there's no other windows
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let NERDTreeMapActivateNode='<CR>' " Otherwise, use 'o' to expand a node
+"""""""""""
+" taglist
+"""""""""""
+nnoremap <silent> <F9> :TlistToggle<CR>
+let g:Tlist_Use_Right_Window = 1
+let g:Tlist_WinWidth = 30
+let g:Tlist_Compact_Format = 1
+let g:Tlist_Auto_Update = 1
+let g:Tlist_Exit_OnlyWindow = 1
+let g:Tlist_Show_One_File = 1
+" Use ctags --list-kinds=fortran to obtain the keywords
+let g:tlist_fortran_settings = 'fortran;s:subroutine;f:function;t:types'
+"""""""""""
+" easyalign
+"""""""""""
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" By the following mapping, you can press | to format the table after moving
+" to the table in the markdown file.
+au FileType markdown map <Bar> vip :EasyAlign*<Bar><Enter>
+"""""""""""
+" vim-session options
+"""""""""""
+let g:session_autosave = 'no'
+let g:session_autoload = 'no'
+set sessionoptions-=buffers
+set sessionoptions-=options
+"""""""""""
+" for vim-pandoc-syntax without vim-pandoc
+"""""""""""
+" augroup pandoc_syntax
+"   au! BufNewFile,BufFilePre,BufRead *.md set filetype=markdown.pandoc
+" augroup END
+" Disable [subscript,superscript,bold,italic] in the tex environment to be concealed
+" let g:tex_conceal='admg'
+" let g:pandoc#syntax#conceal#blacklist = ['strikeout']
+"""""""""""
+" vim-bookmarks
+"""""""""""
+" This following Emoji does not work in Windows Terminal.
+" So just use the default marker. Or you could try to use a valid marker.
+" Check [Github Windows Terminal issue
+" 6236](https://github.com/microsoft/terminal/issues/6236)
+" let g:bookmark_sign = '📌'
+
+"""""""""""
+" snipmate
+"""""""""""
+let g:snipMate = { 'snippet_version' : 1 }
+
+""""""""""""""""""""""""""""""
+" misc
+""""""""""""""""""""""""""""""
+" Try to resolve the issue of extra char 0~STRING~1
+set t_BE=
+"""""""""""
+" tmux
+"""""""""""
+" In tmux, Alt-Arrow keys will work with the following setting.
+if &term =~ '^screen'
+   " tmux will send xterm-style keys when its xterm-keys option is on
+   execute "set <xUp>=\e[1;*A"
+   execute "set <xDown>=\e[1;*B"
+   execute "set <xRight>=\e[1;*C"
+   execute "set <xLeft>=\e[1;*D"
+endif
+
+"""""""""""
+" tab related
+"""""""""""
+set showtabline=1
+" GUI
+set guioptions-=T  "remove toolbar
+set guioptions+=e
+
+" The symbol "!" means that this function is overwritten when vimrc is
+" reloaded.
+" function! GuiTabLabel()
+"   " label starts with the tab number.
+"   let label = tabpagenr()
+"   let label .= ' '
+"   " Add '+' if one of the buffers in the tab page is modified
+"   let bufnrlist = tabpagebuflist(v:lnum)
+"   for bufnr in bufnrlist
+"     if getbufvar(bufnr, "&modified")
+"       let label .= '+'
+"       break
+"     endif
+"   endfor
+"   " Append the number of windows in the tab page if more than one
+"   " let wincount = tabpagewinnr(v:lnum, '$')
+"   " if wincount > 1
+"   "   let label .= wincount
+"   " endif
+"   if t:tab_opened == 1
+"     let label .= '✎'
+"   else
+"     let label .= ' '
+"   endif
+"   " label .= bufname(bufnrlist[tabpagewinnr(v:lnum) - 1])
+"   " Append the buffer name
+"   return label . fnamemodify(bufname(bufnrlist[tabpagewinnr(v:lnum) - 1]), ":t")
+" endfunction
+" let t:tab_opened=0
+" function! SetTabState()
+"   let t:tab_opened=1
+"   set guitablabel=%{GuiTabLabel()}
+" endfunction
+" function! UnsetTabState()
+"   let t:tab_opened=0
+"   set guitablabel=%{GuiTabLabel()}
+" endfunction
+" autocmd TabEnter * call SetTabState()
+" autocmd TabLeave * call UnsetTabState()
+" 
+
+" " set the runtime path to include Vundle and initialize
+" set rtp+=$HOME/.vim/bundle/Vundle.vim/
+" call vundle#begin('$HOME/.vim/bundle/')
+" " let Vundle manage Vundle, required
+" Plugin 'VundleVim/Vundle.vim'
+" Plugin 'dracula/vim'
+" Plugin 'vim-scripts/matchit.zip'
+" Plugin 'scrooloose/nerdcommenter'
+" Plugin 'tomtom/tlib_vim'
+" Plugin 'garbas/vim-snipmate'
+" Plugin 'honza/vim-snippets'
+" Plugin 'MarcWeber/vim-addon-mw-utils'
+" Plugin 'godlygeek/tabular'
+" Plugin 'plasticboy/vim-markdown'
+" Plugin 'majutsushi/tagbar'
+" Plugin 'MattesGroeger/vim-bookmarks'
+" Plugin 'vim-scripts/gmsh.vim'
+" " All of your Plugins must be added before the following line
+" call vundle#end()            " required
+" filetype plugin indent on    " required
+"
+" Markdown folding
+" function! MarkdownLevel()
+"     if getline(v:lnum) =~ '^# .*$'
+"         return ">1"
+"     endif
+"     if getline(v:lnum) =~ '^## .*$'
+"         return ">2"
+"     endif
+"    if getline(v:lnum) =~ '^### .*$'
+"        return ">3"
+"    endif
+"     return "="
+" endfunction
+" au BufEnter *.md setlocal foldexpr=MarkdownLevel()
+" au BufEnter *.md setlocal foldmethod=expr
+" set formatoptions+=mM
+
+" nmap <F9> :TagbarToggle<CR>
+" let g:tagbar_sort = 1
+" let g:tagbar_compact = 1
+" let g:tagbar_width = 19
+" let g:tagbar_indent = 1
+" let g:tagbar_show_visibility = 0
+" let g:tagbar_foldlevel = 1
+" let g:tagbar_type_fortran = {
+"     \ 'kinds' : [
+"         \ 'm:modules',
+"         \ 'p:programs',
+"         \ 'k:components:0',
+"         \ 't:derived types and structures:0',
+"         \ 'c:common blocks:0',
+"         \ 'b:block data:0:0',
+"         \ 'e:entry points:0',
+"         \ 'f:functions:1',
+"         \ 's:subroutines:1',
+"         \ 'l:labels:0',
+"         \ 'n:namelists:0',
+"         \ 'v:variables:0:0',
+"         \ '?:unknown',
+"     \ ],
+" \ }
+
+" let g:netrw_browse_split = 3
+" let g:netrw_banner = 0
+" let g:netrw_winsize = 50
+" let g:NetrwIsOpen=0
+" function! ToggleNetrw()
+"     if g:NetrwIsOpen
+"         let i = bufnr("$")
+"         while (i >= 1)
+"             if (getbufvar(i, "&filetype") == "netrw")
+"                 silent exe "bwipeout " . i
+"             endif
+"             let i-=1
+"         endwhile
+"         let g:NetrwIsOpen=0
+"     else
+"         let g:NetrwIsOpen=1
+"         silent Lexplore
+"     endif
+" endfunction
+
+" " Add your own mapping. For example:
+" noremap <silent> <C-E> :call ToggleNetrw()<CR>
+
+" hi Search guibg=peru guifg=wheat
+" hi Search term=standout cterm=bold ctermfg=7 ctermbg=1 guifg=White guibg=Red
+" set background=
+" :hi TabLineSel guifg=LightGreen guibg=DarkGreen ctermfg=LightGreen ctermbg=DarkGreen
+

@@ -1,0 +1,16 @@
+{
+  "localaddr": ":14932",
+  "remoteaddr": "45.77.26.179:27788",
+  "key": "kun728",
+  "crypt": "salsa20",
+  "mode": "fast2",
+  "mtu": 1350,
+  "sndwnd": 512,
+  "rcvwnd": 512,
+  "datashard": 10,
+  "parityshard": 3,
+  "dscp": 0,
+  "nocomp": false,
+  "quiet": false
+}
+

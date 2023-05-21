@@ -1,0 +1,7 @@
+#!/bin/bash
+BASEDIR=$(dirname "$0")
+filename="${1%.*}"
+pandoc -f markdown -t revealjs --template=${BASEDIR}/revealjs.template -V revealjs-url:https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0 --mathjax ${1} -o ${filename}.html
+filename="${1%.*}" # get the base name of the input file
+sed -i 's/\[\ \]/\<input\ type\=\"checkbox\"\ \>/g' ${filename}.html
+sed -i 's/\[X\]/\<input\ type\=\"checkbox\"\ checked\>/g' ${filename}.html

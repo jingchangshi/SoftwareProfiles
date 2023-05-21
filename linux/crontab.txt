@@ -1,0 +1,19 @@
+SHELL=/bin/bash
+1 0 * * * /home/jcshi/Softwares/Python/bin/python3 /home/jcshi/software_profile/linux/muchong.py checkin
+# Back up Pictures and Videos from Mobile Phone
+# dirname=MobileCamera
+# dirname=MobilePictures
+# 1 1 * * 1 $HOME/software_profile/linux/movePics2RootDir.sh $HOME/${dirname}
+# 1 1 * * * source $HOME/software_profile/linux/backup_picsvideos.sh ${dirname}
+# dirname=WeiXin
+# 1 1 * * * source $HOME/software_profile/linux/backup_picsvideos.sh ${dirname}
+# Back up data
+# dirbase=/home/jcshi/code/REF_project
+# dirname=REF_cases
+# 5  0 * * * source $HOME/software_profile/linux/backup_data.sh ${dirbase} ${dirname}
+dirbase=/home/jcshi/NFS_Project
+dirname=nfs_cases
+25 1 * * * source $HOME/software_profile/linux/backup_data.sh ${dirbase} ${dirname}
+# dirbase=/home/jcshi
+# dirname=wall_model
+# 25 1 * * * source $HOME/software_profile/linux/backup_data.sh ${dirbase} ${dirname}

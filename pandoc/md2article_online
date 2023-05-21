@@ -1,0 +1,10 @@
+#!/bin/bash
+BASEDIR=$(dirname "$0")
+filename="${1%.*}"
+if [ -z $2 ]; then
+  pandoc -f markdown -t html --template=${BASEDIR}/article_online.template --mathjax --number-sections --number-offset=0 --toc ${1} -o ${filename}.html
+else
+  pandoc -f markdown -t html --template=${BASEDIR}/article_online.template --mathjax --number-sections --number-offset=0 --toc ${1} -o ${2}
+fi
+# pandoc -f markdown -t html --filter pandoc-fignos --filter ${BASEDIR}/sidenote.py --template=${BASEDIR}/article.template --mathjax --number-sections --number-offset=0 --toc ${1} -o ${filename}.html
+# pandoc -f markdown -t html --filter ${BASEDIR}/sidenote.py --template=${BASEDIR}/article.template --mathjax --number-sections --number-offset=0 --toc ${1} -o ${filename}.html

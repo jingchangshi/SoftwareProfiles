@@ -1,0 +1,5 @@
+AIAA Journal = AIAA J.
+{AIAA} Journal = {AIAA} J.
+Computers & Fluids = Comput Fluids
+Computers & fluids = Comput Fluids
+Computers Fluids = Comput Fluids

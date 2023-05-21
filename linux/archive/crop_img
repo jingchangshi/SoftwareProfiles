@@ -1,0 +1,11 @@
+echo "Usage: crop_img source_file width height width_displacement height_displacement"
+source_file=${1}
+result_file=$source_file
+width_raw=$(file $source_file | awk '{print $5}')
+height_raw=$(file $source_file | awk '{print $7}')
+width_result=${2}
+height_result=${3}
+width_displacement=${4}
+height_displacement=${5}
+convert $source_file -crop ${width_result}x${height_result}+${width_displacement}+${height_displacement} -gravity NorthWest $result_file
+

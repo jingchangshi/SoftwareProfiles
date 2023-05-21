@@ -1,0 +1,6 @@
+#!/bin/bash
+BASEDIR=$(dirname "$0")
+filename="${1%.*}"
+# No idea why sidenote.py cannot be used. Temporarily disable it.
+# pandoc -f markdown -t html --filter ${BASEDIR}/sidenote.py --template=${BASEDIR}/journal.template ${1} -o ${filename}.html
+pandoc -f markdown -t html --template=${BASEDIR}/journal.template --mathjax --number-sections --number-offset=0 --toc ${1} -o ${filename}.html

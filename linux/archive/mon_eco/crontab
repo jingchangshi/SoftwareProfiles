@@ -1,0 +1,2 @@
+0 1 * * * python3 /home/jcshi/software_profile/linux/mon_eco/mon_eco_audio.py 2>&1 1>> /home/jcshi/software_profile/linux/mon_eco/crontab.log
+0 1 * * * python3 /home/jcshi/software_profile/linux/mon_eco/mon_eco_pdf.py 2>&1 1>> /home/jcshi/software_profile/linux/mon_eco/crontab.log
