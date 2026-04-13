@@ -1,36 +1,32 @@
 -- ~/.config/nvim/lua/plugins/comment.lua
 return {
   "numToStr/Comment.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  opts = {
-    padding = true,
-    sticky = true,
-    ignore = nil,
-    mappings = {
-      basic = true, -- 保留 gcc / gbc / gc / gb
-      extra = true,
-    },
-  },
-  keys = {
-    -- 普通模式：<leader>\ -> gcc
-    {
-      "<leader>\\",
-      function()
-        require("Comment.api").toggle.linewise.current()
+  lazy = false,
+  config = function()
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "c", "cpp" },
+      callback = function()
+        vim.bo.commentstring = "// %s"
       end,
-      mode = "n",
-      desc = "Toggle comment line",
-    },
-    -- 可视模式：<leader>\ -> 注释选中行
-    {
-      "<leader>\\",
-      function()
-        local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-        vim.api.nvim_feedkeys(esc, "nx", false)
-        require("Comment.api").toggle.linewise(vim.fn.visualmode())
+    })
+
+    require("Comment").setup({
+      padding = true,
+      sticky = true,
+      mappings = {
+        basic = true,
+        extra = false,
+      },
+      pre_hook = function(_)
+        local cs = vim.bo.commentstring
+        if cs == nil or cs == "" then
+          local ft = vim.bo.filetype
+          if ft == "c" or ft == "cpp" then
+            return "// %s"
+          end
+        end
+        return cs
       end,
-      mode = "x",
-      desc = "Toggle comment selection",
-    },
-  },
+    })
+  end,
 }
