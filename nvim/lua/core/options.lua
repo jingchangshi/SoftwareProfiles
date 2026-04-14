@@ -13,6 +13,9 @@ opt.expandtab = true -- 使用空格代替 Tab
 opt.autoindent = true
 opt.smartindent = true
 opt.colorcolumn = "80,120"
+opt.wrap = true
+opt.linebreak = true
+opt.breakindent = true
 
 -- 性能与体验优化
 opt.updatetime = 50    -- 加快响应速度
