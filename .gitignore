@@ -1,3 +1,2 @@
-*.pyc
-*.png
-*.log
+nvim/lazy-lock.json
+
