@@ -104,6 +104,9 @@ return {
       fzf.buffers()
     end, { desc = "查找 buffer" })
 
+    map("n", "<S-l>", "<cmd>bnext<CR>")
+    map("n", "<S-h>", "<cmd>bprevious<CR>")
+
     map("n", "<leader>fh", function()
       fzf.helptags()
     end, { desc = "查找帮助" })
