@@ -47,3 +47,5 @@
 	helper = store
 [safe]
 	directory = *
+[url "https://ghfast.top/https://github.com/"]
+	insteadOf = https://github.com/
