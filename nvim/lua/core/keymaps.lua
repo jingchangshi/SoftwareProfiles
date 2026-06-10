@@ -24,3 +24,26 @@ map("n", "<F5>", ":tabprev<CR>", { desc = "切换到上一个标签页" })
 map("n", "<F6>", ":tabnext<CR>", { desc = "切换到下一个标签页" })
 map("n", "<F7>", ":tabmove -1<CR>", { desc = "当前标签页向左移动" })
 map("n", "<F8>", ":tabmove +1<CR>", { desc = "当前标签页向右移动" })
+
+-- 复制文件路径相关信息到系统剪贴板
+
+-- 当前 buffer 文件名
+map("n", "<leader>fn", function()
+  local name = vim.fn.expand("%:t")
+  vim.fn.setreg("+", name)
+  print("Copied filename: " .. name)
+end, { desc = "复制文件名" })
+
+-- 当前 buffer 相对路径
+map("n", "<leader>fr", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  print("Copied relative path: " .. path)
+end, { desc = "复制相对路径" })
+
+-- 当前 buffer 绝对路径
+map("n", "<leader>fa", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  print("Copied absolute path: " .. path)
+end, { desc = "复制绝对路径" })

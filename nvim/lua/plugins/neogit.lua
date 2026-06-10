@@ -58,5 +58,14 @@ return {
     map("n", "<leader>gb", function()
       neogit.open({ "branch" })
     end, "打开 Branch 窗口")
+
+    -- 配置 vimdiff 作为 merge tool
+    vim.cmd([[
+      if executable("vim")
+        let g:neogit_use_git_mergetool = 1
+        let g:git_mergetool = "vimdiff"
+      endif
+    ]])
   end,
 }
+

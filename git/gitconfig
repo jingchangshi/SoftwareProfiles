@@ -5,6 +5,8 @@
 	sslVerify = false
 	lowSpeedLimit = 0
 	lowSpeedTime = 999999
+	postBuffer = 524288000
+	maxRequestBuffer = 100M
 [core]
 	editor = vim
 [pager]
@@ -43,9 +45,11 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[merge]
+	tool = vimdiff
 [credential]
 	helper = store
 [safe]
 	directory = *
-[url "https://ghfast.top/https://github.com/"]
-	insteadOf = https://github.com/
+# [url "https://ghfast.top/https://github.com/"]
+#  	insteadOf = https://github.com/
