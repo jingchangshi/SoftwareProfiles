@@ -15,7 +15,23 @@ return {
       interval = 1000,
       enabled = true,
     },
-    graph_style = "ascii",
+    graph_style = "unicode",
+    log_view = {
+      kind = "tab",
+      graph = true,
+    },
+    log_options = {
+      git = {
+        log = {
+          "--graph",
+          "--decorate",
+          "--oneline",
+          "--abbrev-commit",
+          "--date=relative",
+          "--color=always",
+        },
+      },
+    },
     remember_settings = true,
     use_per_project_settings = true,
     highlight = {
@@ -68,4 +84,3 @@ return {
     ]])
   end,
 }
-

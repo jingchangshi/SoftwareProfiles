@@ -9,6 +9,7 @@
 	maxRequestBuffer = 100M
 [core]
 	editor = vim
+	excludesfile = /home/shijingchang/.gitignore
 [pager]
 	branch = false
 [alias]

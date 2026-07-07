@@ -12,6 +12,14 @@ map("n", "<C-h>", "<C-w>h", { desc = "切换到左侧窗口" })
 map("n", "<C-j>", "<C-w>j", { desc = "切换到下方窗口" })
 map("n", "<C-k>", "<C-w>k", { desc = "切换到上方窗口" })
 map("n", "<C-l>", "<C-w>l", { desc = "切换到右侧窗口" })
+-- Alt + 方向键：分屏导航
+map("n", "<M-Left>", "<C-w>h", { desc = "切换到左侧窗口" })
+map("n", "<M-Right>", "<C-w>l", { desc = "切换到右侧窗口" })
+map("n", "<M-Up>", "<C-w>k", { desc = "切换到上方窗口" })
+map("n", "<M-Down>", "<C-w>j", { desc = "切换到下方窗口" })
+
+-- 左侧 buffer 侧边栏
+map("n", "<leader>b", ":SidebarNvimToggle<CR>", { desc = "切换 Buffer 侧边栏" })
 
 -- 调整分屏大小
 map("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "缩小窗口宽度" })
