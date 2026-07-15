@@ -1,5 +1,7 @@
 [include]
 	path = ~/.gitconfig.local
+[http]
+	sslVerify = false
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore
