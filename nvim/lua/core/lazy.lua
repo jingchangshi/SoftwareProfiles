@@ -1,7 +1,9 @@
 -- ~/.config/nvim/lua/core/lazy.lua
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.uv.fs_stat(lazypath) then
-  vim.fn.system({
+local uv = vim.uv or vim.loop
+
+if not uv.fs_stat(lazypath) then
+  local output = vim.fn.system({
     "git",
     "clone",
     "--filter=blob:none",
@@ -9,8 +11,15 @@ if not vim.uv.fs_stat(lazypath) then
     "--branch=stable",
     lazypath,
   })
+  if vim.v.shell_error ~= 0 then
+    error("Failed to install lazy.nvim:\n" .. output)
+  end
 end
 vim.opt.rtp:prepend(lazypath)
+
+if not uv.fs_stat(lazypath .. "/lua/lazy/init.lua") then
+  error("lazy.nvim installation is incomplete: " .. lazypath)
+end
 
 require("lazy").setup({
   spec = {

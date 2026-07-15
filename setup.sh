@@ -9,7 +9,9 @@ ONLY_COMPONENTS=""
 SKIP_COMPONENTS=""
 DRY_RUN=false
 ASSUME_YES=false
+NVIM_SYNC=true
 BACKUP_DIR=""
+LINK_RESULT=""
 
 CREATED=0
 UNCHANGED=0
@@ -28,6 +30,7 @@ Options:
   --skip LIST        skip comma-separated components
   --backup-dir DIR   move conflicting files into DIR
   --dry-run          print the planned changes without writing files
+  --no-nvim-sync     install lazy.nvim but do not synchronize plugins
   -y, --yes          back up conflicts and install tmux plugins without asking
   -h, --help         show this help
 
@@ -80,6 +83,10 @@ parse_args() {
         ;;
       --dry-run)
         DRY_RUN=true
+        shift
+        ;;
+      --no-nvim-sync)
+        NVIM_SYNC=false
         shift
         ;;
       -y | --yes)
@@ -178,11 +185,21 @@ check_command() {
   command -v "$command_name" >/dev/null 2>&1 || warn "$component 配置可以安装，但未找到命令: $command_name"
 }
 
+require_command() {
+  local command_name=$1
+  local component=$2
+  command -v "$command_name" >/dev/null 2>&1 \
+    || die "$component 初始化需要命令: $command_name"
+}
+
 preflight() {
   if component_selected nvim; then
     require_source "$SCRIPT_DIR/nvim"
-    check_command nvim nvim
-    check_command git nvim
+    require_command nvim nvim
+    require_command git nvim
+    check_command make nvim
+    check_command fd nvim
+    check_command rg nvim
   fi
 
   if component_selected tmux; then
@@ -242,6 +259,7 @@ link_item() {
   if [ -L "$dest" ] && [ "$(readlink "$dest")" = "$src" ]; then
     echo "未变化: $dest -> $src"
     UNCHANGED=$((UNCHANGED + 1))
+    LINK_RESULT=unchanged
     return
   fi
 
@@ -249,6 +267,7 @@ link_item() {
     if ! confirm "目标 $dest 已存在，是否备份并替换？"; then
       echo "已跳过: $dest"
       SKIPPED=$((SKIPPED + 1))
+      LINK_RESULT=skipped
       return
     fi
     backup_item "$dest"
@@ -262,10 +281,78 @@ link_item() {
     echo "已创建: $dest -> $src"
   fi
   CREATED=$((CREATED + 1))
+  LINK_RESULT=created
+}
+
+install_lazy_nvim() {
+  local lazy_path="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/lazy/lazy.nvim"
+  local temp_dir
+
+  if [ -f "$lazy_path/lua/lazy/init.lua" ]; then
+    echo "未变化: $lazy_path"
+    UNCHANGED=$((UNCHANGED + 1))
+    return
+  fi
+
+  if [ -e "$lazy_path" ] || [ -L "$lazy_path" ]; then
+    if ! confirm "lazy.nvim 目录不完整，是否备份并重新安装？"; then
+      die "lazy.nvim 目录不完整: $lazy_path"
+    fi
+    backup_item "$lazy_path"
+  fi
+
+  if $DRY_RUN; then
+    echo "计划克隆: lazy.nvim -> $lazy_path"
+    CREATED=$((CREATED + 1))
+    return
+  fi
+
+  mkdir -p "$(dirname "$lazy_path")"
+  temp_dir=$(mktemp -d "$(dirname "$lazy_path")/.lazy.nvim.tmp.XXXXXX")
+  if ! git clone --filter=blob:none --branch=stable \
+    https://github.com/folke/lazy.nvim.git "$temp_dir/repository"; then
+    rm -rf -- "$temp_dir"
+    die "lazy.nvim 下载失败，请检查网络、代理和 Git 配置后重试"
+  fi
+  if [ ! -f "$temp_dir/repository/lua/lazy/init.lua" ]; then
+    rm -rf -- "$temp_dir"
+    die "下载到的 lazy.nvim 结构无效"
+  fi
+  mv -- "$temp_dir/repository" "$lazy_path"
+  rmdir "$temp_dir"
+  echo "已安装: $lazy_path"
+  CREATED=$((CREATED + 1))
+}
+
+sync_nvim_plugins() {
+  if ! $NVIM_SYNC; then
+    echo "已跳过: Neovim 插件同步"
+    SKIPPED=$((SKIPPED + 1))
+    return
+  fi
+  if $DRY_RUN; then
+    echo "计划执行: nvim --headless +Lazy! sync +qa"
+    return
+  fi
+
+  echo "正在同步 Neovim 插件..."
+  if ! nvim --headless "+Lazy! sync" "+qa"; then
+    echo "部分插件同步失败，自动重试一次..." >&2
+    if ! nvim --headless "+Lazy! sync" "+qa"; then
+      die "Neovim 插件同步失败；可检查上方日志，修复后运行 nvim --headless '+Lazy! sync' +qa"
+    fi
+  fi
+  echo "Neovim 插件同步完成"
 }
 
 install_nvim() {
   link_item "$SCRIPT_DIR/nvim" "${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+  if [ "$LINK_RESULT" = skipped ]; then
+    warn "Neovim 配置未替换，因此没有初始化插件"
+    return
+  fi
+  install_lazy_nvim
+  sync_nvim_plugins
 }
 
 install_tmux_plugins() {

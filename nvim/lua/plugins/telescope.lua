@@ -4,7 +4,11 @@ return {
 	lazy = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
-		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		{
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+			enabled = vim.fn.executable("make") == 1,
+		},
 	},
 	config = function()
 		local telescope = require("telescope")
@@ -51,7 +55,8 @@ return {
 			},
 		})
 
-		telescope.load_extension("fzf")
+		-- Native fzf is an optional accelerator and requires make plus a C compiler.
+		pcall(telescope.load_extension, "fzf")
 
 		local map = vim.keymap.set
 		map("n", "ff", function()
