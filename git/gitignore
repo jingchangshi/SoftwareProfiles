@@ -13,17 +13,26 @@
 *.swo
 *~
 *.orig
+_issues/
+
+# Local developer tools #
+#########################
+.claude/
+.reasonix/
+.codegraph/
+REASONIX.md
+compile_commands.json
 
 # Packages #
 ############
-# *.7z
-# *.dmg
-# *.gz
-# *.iso
-# *.jar
-# *.rar
-# *.tar
-# *.zip
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
 
 # Logs #
 ######################
