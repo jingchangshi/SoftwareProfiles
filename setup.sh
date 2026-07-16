@@ -403,9 +403,25 @@ install_tmux() {
   install_tmux_plugins
 }
 
+configure_git_credential_helper() {
+  if ! command -v git >/dev/null 2>&1; then
+    warn "未找到 git，无法设置 credential.helper"
+    return
+  fi
+
+  if $DRY_RUN; then
+    echo "计划设置: git config --global credential.helper store"
+    return
+  fi
+
+  git config --global credential.helper store
+  echo "已设置: git config --global credential.helper store"
+}
+
 install_git() {
   link_item "$SCRIPT_DIR/git/gitconfig" "$HOME/.gitconfig"
   link_item "$SCRIPT_DIR/git/gitignore" "$HOME/.gitignore"
+  configure_git_credential_helper
 
   if command -v git >/dev/null 2>&1 \
     && { [ -z "$(git config --global --get user.name 2>/dev/null || true)" ] \
